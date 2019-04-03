@@ -1,0 +1,29 @@
+<h1>System Access Requests</h1>
+
+
+  <table border='1' width='100%' style='border-collapse: collapse;'>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Category</th>
+      <th>Manager</th>
+      <th>Status</th>
+      <th>Response</th>
+    </tr>
+
+    <tr *ngFor="let request of requests">
+      <td>{{ request.id }}</td>
+      <td>{{ request.first_name }}</td>
+      <td>{{ request.last_name }}</td>
+      <td>{{ request.email }}</td>
+      <td>{{ request.category }}</td>
+      <td>{{ request.manager }}</td>
+      <td>{{ request.status }}</td>
+      <td>
+        <button (click)="approveRequest(request)">Approve</button>
+        <button (click)="declineRequest(request)">Decline</button>
+      </td>
+    </tr>
+  </table>
