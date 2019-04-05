@@ -1,10 +1,12 @@
-<h1>System Access Requests</h1>
-<p>{{ cookieValue }}</p>
+<div class="container">
+    <h1>System Access Requests</h1>
+    <p>{{ cookieValue }}</p>
 
-<!--display requests-->
-<app-request-list
-    [requests]="requests"
-    (requestApproved)="approveRequest($event)"
-    (requestDeclined)="declineRequest($event)"
->
-</app-request-list>
+    <!--display requests-->
+    <app-request-list
+            [requests]="requests$"
+            (requestApproved)="approveRequest($event)"
+            (requestDeclined)="declineRequest($event)"
+    >
+    </app-request-list>
+</div>

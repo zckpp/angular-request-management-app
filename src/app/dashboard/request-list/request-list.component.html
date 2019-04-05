@@ -1,17 +1,17 @@
 <table width='100%' class="table table-striped">
   <tr>
-    <th>ID</th>
-    <th>First Name</th>
-    <th>Last Name</th>
+    <th scope="col" sortable="created_date" (sort)="onSort($event)">Created Date</th>
+    <th scope="col" sortable="first_name" (sort)="onSort($event)">First Name</th>
+    <th scope="col" sortable="last_name" (sort)="onSort($event)">Last Name</th>
     <th>Email</th>
     <th>Category</th>
     <th>Manager</th>
-    <th>Status</th>
+    <th scope="col" sortable="status" (sort)="onSort($event)">Status</th>
     <th>Response</th>
   </tr>
 
-  <tr *ngFor="let request of requests">
-    <td>{{ request.id }}</td>
+  <tr *ngFor="let request of requests | async">
+    <td>{{ request.created_date | date:'medium' }}</td>
     <td>{{ request.first_name }}</td>
     <td>{{ request.last_name }}</td>
     <td>{{ request.email }}</td>
@@ -19,8 +19,9 @@
     <td>{{ request.manager }}</td>
     <td>{{ request.status }}</td>
     <td>
-      <button (click)="requestApproved.emit(request)">Approve</button>
-      <button (click)="requestDeclined.emit(request)">Decline</button>
+      <button class="btn btn-success" (click)="requestApproved.emit(request)">Approve</button>
+      &nbsp;
+      <button class="btn btn-danger"(click)="requestDeclined.emit(request)">Decline</button>
     </td>
   </tr>
 </table>

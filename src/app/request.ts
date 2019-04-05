@@ -1,4 +1,4 @@
-export  class  Request {
+export interface Request {
     id: number;
     last_name:  string;
     first_name:  string;
@@ -6,4 +6,5 @@ export  class  Request {
     category:  string;
     manager:  string;
     status:  string;
+    created_date: any;
 }
