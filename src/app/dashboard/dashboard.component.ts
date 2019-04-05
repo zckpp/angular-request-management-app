@@ -48,30 +48,27 @@ export class DashboardComponent implements OnInit {
     if(this.selectedRequest && this.selectedRequest.id){
       request.id = this.selectedRequest.id;
       request.status = value;
-      this.apiService.updateRequest(request).subscribe(response => {
-        // You can access status:
+      // use any here so that the condition statement won't generate error
+      this.apiService.updateRequest(request).subscribe((response: any) => {
+        // status response configured in php app
         console.log(response);
-        // if succeed, update request list view
+        // if succeed, then update request list view
         if (response == "204") this.changeStatus(this.status);
         else alert("Operation failed on database, pelase try again.");
       });
     }
-    // else{
-    //   this.apiService.createRequest(form.value).subscribe((request: Request)=>{
-    //     console.log("Policy created, ", request);
-    //   });
-    // }
-
   }
 
   approveRequest(request: Request){
     this.selectedRequest = request;
     this.updateRequest(this.selectedRequest, 'approved');
   }
+
   declineRequest(request: Request){
     this.selectedRequest = request;
     this.updateRequest(this.selectedRequest, 'declined');
   }
+
   // get different view based on status then pass it down to request list display
   changeStatus(status) {
     this.requests$ = this.getRequest().pipe(
@@ -83,6 +80,5 @@ export class DashboardComponent implements OnInit {
     );
     this.status = status;
   }
-
 
 }

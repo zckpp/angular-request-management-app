@@ -30,7 +30,6 @@ export class RequestListComponent implements OnInit {
   @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
   onSort({column, direction}: SortEvent) {
-
     // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
@@ -43,7 +42,7 @@ export class RequestListComponent implements OnInit {
       // sort by date when direction is reset to default
       this.requests = this.requests.pipe(
           tap(
-            r => {
+            (r: any[]) => {
               r.sort((a, b) => { return b.created_date-a.created_date; });
             }
           )
@@ -52,7 +51,7 @@ export class RequestListComponent implements OnInit {
       // set string column
       this.requests = this.requests.pipe(
           tap(
-              r => {
+              (r: any[]) => {
                 r.sort((a, b) => {
                   const res = compare(a[column], b[column]);
                   return direction === 'asc' ? res : -res;
