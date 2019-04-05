@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>System Access Request Manager</h1>
+    <h1>System Access Request Manager Dashboard</h1>
     <p>{{ cookieValue }}</p>
 
     <!--display requests-->
@@ -9,6 +9,7 @@
             (requestApproved)="approveRequest($event)"
             (requestDeclined)="declineRequest($event)"
             (statusChange)="changeStatus($event)"
+            (onSort)="sortRequests($event)"
     >
     </app-request-list>
 </div>

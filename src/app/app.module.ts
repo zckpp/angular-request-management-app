@@ -9,7 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RequestListComponent } from './dashboard/request-list/request-list.component';
-import { SortableDirective } from './dashboard/request-list/sortable.directive';
+import { SortableDirective } from './dashboard/sortable.directive';
 
 @NgModule({
   declarations: [

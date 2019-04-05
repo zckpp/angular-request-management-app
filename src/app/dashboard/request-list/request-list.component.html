@@ -14,9 +14,9 @@
 
 <table width='100%' class="table table-striped">
   <tr>
-    <th scope="col" sortable="created_date" (sort)="onSort($event)">Created Date</th>
-    <th scope="col" sortable="first_name" (sort)="onSort($event)">First Name</th>
-    <th scope="col" sortable="last_name" (sort)="onSort($event)">Last Name</th>
+    <th scope="col" sortable="created_date" (sort)="onSort.emit($event)">Created Date</th>
+    <th scope="col" sortable="first_name" (sort)="onSort.emit($event)">First Name</th>
+    <th scope="col" sortable="last_name" (sort)="onSort.emit($event)">Last Name</th>
     <th>Email</th>
     <th>Category</th>
     <th>Manager</th>

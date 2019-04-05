@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, ViewChildren, QueryList } from '@angular/core';
 import { ApiService } from '../api.service';
-import {Request} from '../request';
+import { SortableDirective, SortEvent, Compare } from './sortable.directive';
+import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-dashboard',
@@ -80,5 +81,42 @@ export class DashboardComponent implements OnInit {
     );
     this.status = status;
   }
+
+  // sort requests
+  // sorting requests list table
+  @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
+  sortRequests({column, direction}: SortEvent) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting requests
+    if (direction === '') {
+      // sort by date when direction is reset to default
+      this.requests$ = this.requests$.pipe(
+          tap(
+              (r: any[]) => {
+                r.sort((a, b) => { return b.created_date-a.created_date; });
+              }
+          )
+      );
+    } else {
+      // set string column
+      this.requests$ = this.requests$.pipe(
+          tap(
+              (r: any[]) => {
+                r.sort((a, b) => {
+                  const res = Compare(a[column], b[column]);
+                  return direction === 'asc' ? res : -res;
+                });
+              }
+          )
+      );
+    }
+  }
+
 
 }
