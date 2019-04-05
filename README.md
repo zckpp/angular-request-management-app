@@ -1,6 +1,8 @@
-# Frontend
+This project was designed for Carnegie System Access Request Approval Process.
 
-This project was generated with [Angular CLI]
+The backend endpoint is configured in PHP and data saved in MySQL.
+
+
 
 ## Development server
 
