@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, Directive, ViewChildren, QueryList } from '@angular/core';
 import { Request } from '../../request';
-import { tap } from 'rxjs/operators';
+import { tap,map } from 'rxjs/operators';
 import { SortableDirective, SortEvent } from './sortable.directive';
 
 // compare function for string sort
@@ -15,9 +15,11 @@ export const compare = (v1, v2) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 export class RequestListComponent implements OnInit {
 
   // receive requests from dashboard and emit approve and decline operations
-  @Input() requests: Request[];
+  @Input() requests;
+  @Input() status;
   @Output() requestApproved = new EventEmitter<Request>();
   @Output() requestDeclined = new EventEmitter<Request>();
+  @Output() statusChange = new EventEmitter<string>();
 
   constructor() { }
 

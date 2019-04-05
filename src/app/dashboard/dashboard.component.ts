@@ -12,7 +12,9 @@ import {Observable} from "rxjs";
 })
 export class DashboardComponent implements OnInit {
 
+  // postfix dollar sign for observables
   requests$: Observable<Request[]>;
+  status: string;
   selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
 
   constructor(
@@ -22,20 +24,25 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // start with request list
-    this.requests$ = this.apiService.readRequests().pipe(
-      tap(requests => {
-        requests.forEach(function (request) {
-          // covert mysql datetime into js date
-          let t = request.created_date.split(/[- :]/);
-          request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-        });
-      }),
-      tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; })})
-    );
+    this.requests$ = this.getRequest();
+
     this.cookieValue = this.cookieService.get('Test');
   }
 
   cookieValue = 'UNKNOWN';
+
+  getRequest() {
+    return this.apiService.readRequests().pipe(
+        tap(requests => {
+          requests.forEach(function (request) {
+            // covert mysql datetime into js date
+            let t = request.created_date.split(/[- :]/);
+            request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+          });
+        }),
+        tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; }); })
+    );
+  }
 
   updateRequest(request: Request, value){
     if(this.selectedRequest && this.selectedRequest.id){
@@ -44,6 +51,9 @@ export class DashboardComponent implements OnInit {
       this.apiService.updateRequest(request).subscribe(response => {
         // You can access status:
         console.log(response);
+        // if succeed, update request list view
+        if (response == "204") this.changeStatus(this.status);
+        else alert("Operation failed on database, pelase try again.");
       });
     }
     // else{
@@ -62,4 +72,17 @@ export class DashboardComponent implements OnInit {
     this.selectedRequest = request;
     this.updateRequest(this.selectedRequest, 'declined');
   }
+  // get different view based on status then pass it down to request list display
+  changeStatus(status) {
+    this.requests$ = this.getRequest().pipe(
+        map(
+            (requests) => {
+              return requests.filter((request) => { return request.status.includes(status); });
+            }
+        ),
+    );
+    this.status = status;
+  }
+
+
 }

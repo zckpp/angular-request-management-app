@@ -1,12 +1,14 @@
 <div class="container">
-    <h1>System Access Requests</h1>
+    <h1>System Access Request Manager</h1>
     <p>{{ cookieValue }}</p>
 
     <!--display requests-->
     <app-request-list
             [requests]="requests$"
+            [status]="status"
             (requestApproved)="approveRequest($event)"
             (requestDeclined)="declineRequest($event)"
+            (statusChange)="changeStatus($event)"
     >
     </app-request-list>
 </div>

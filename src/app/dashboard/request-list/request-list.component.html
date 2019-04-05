@@ -1,3 +1,17 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('pending')" [class.active]="status == 'pending'">Pending</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('approved')" [class.active]="status == 'approved'">Approved</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('declined')" [class.active]="status == 'declined'">Declined</a>
+  </li>
+</ul>
+
+<br>
+
 <table width='100%' class="table table-striped">
   <tr>
     <th scope="col" sortable="created_date" (sort)="onSort($event)">Created Date</th>
