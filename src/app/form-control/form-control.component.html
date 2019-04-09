@@ -1,0 +1,61 @@
+<mat-card class="container">
+  <h1>System Access Request Form</h1>
+
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12">
+        <input type="hidden" formControlName="id">
+        <input matInput placeholder="First Name" formControlName="first_name" required>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6 col-sm-12">
+        <input matInput placeholder="Last Name" formControlName="last_name" required>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12">
+        <input matInput placeholder="Email" formControlName="email"  required>
+        <mat-error *ngIf="requestForm.get('email').dirty && requestForm.get('email').hasError('email')">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6 col-sm-12">
+        <input matInput placeholder="Manager" aria-label="Manager" formControlName="manager" [matAutocomplete]="auto" required>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>Please type in your manager's name and select from the Autocomplete list.</mat-hint>
+        <mat-error *ngIf="requestForm.get('manager').dirty && requestForm.get('manager').hasError('notInList')">
+          Please choose a manager from the list.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category.value">
+            {{category.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button type="submit" mat-raised-button [disabled]="!requestForm.valid">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <br><br>
+
+  <ngb-alert *ngIf="succeed === true" type="success" [dismissible]="false">Your request is submitted successfully.</ngb-alert>
+  <ngb-alert *ngIf="succeed === false" type="danger" [dismissible]="false">There was something wrong in the system. Please try again or contact admin.</ngb-alert>
+</mat-card>
+

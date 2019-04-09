@@ -1,0 +1,141 @@
+{
+  "_from": "ngx-cookie-service",
+  "_id": "ngx-cookie-service@2.1.0",
+  "_inBundle": false,
+  "_integrity": "sha512-7g7NEo7dYp6ap0j5qZ4Nf6nrU4WVdx8ycRQbWyLPps6mrR/+5vKU73ie0CMuKzl625bDTBjjJ60AmqTsp4l+AQ==",
+  "_location": "/ngx-cookie-service",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ngx-cookie-service",
+    "name": "ngx-cookie-service",
+    "escapedName": "ngx-cookie-service",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ngx-cookie-service/-/ngx-cookie-service-2.1.0.tgz",
+  "_shasum": "8023f9edfcd8bd4f0b299b1f0c263112dbb0e261",
+  "_spec": "ngx-cookie-service",
+  "_where": "C:\\xampp\\htdocs\\angular-php\\frontend",
+  "author": {
+    "name": "7leads GmbH",
+    "email": "info@7leads.org"
+  },
+  "bugs": {
+    "url": "https://github.com/7leads/ngx-cookie-service/issues",
+    "email": "info@7leads.org"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Christopher Parotat",
+      "email": "c.parotat@7leads.org"
+    },
+    {
+      "name": "Stefan Bauer",
+      "email": "bauer.stefan@live.de"
+    },
+    {
+      "name": "Kristian Thy",
+      "email": "thy@42.dk"
+    },
+    {
+      "name": "Jared Clemence"
+    },
+    {
+      "name": "flakolefluk"
+    },
+    {
+      "name": "mattbanks"
+    },
+    {
+      "name": "DBaker85"
+    }
+  ],
+  "deprecated": false,
+  "description": "an (aot ready) angular (4.2+) cookie service",
+  "devDependencies": {
+    "@angular/cli": "1.0.0",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/http": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/platform-server": "^4.0.0",
+    "@angular/router": "^4.0.0",
+    "@types/jasmine": "2.5.38",
+    "@types/node": "~6.0.60",
+    "async": "^2.3.0",
+    "codelyzer": "~2.0.0",
+    "core-js": "^2.4.1",
+    "jasmine-core": "~2.5.2",
+    "jasmine-spec-reporter": "~3.2.0",
+    "karma": "~1.4.1",
+    "karma-chrome-launcher": "~2.0.0",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^0.2.0",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.1.0",
+    "rimraf": "^2.6.1",
+    "rxjs": "^5.1.0",
+    "ts-node": "~2.0.0",
+    "tslint": "~4.5.0",
+    "typescript": "~2.2.0",
+    "zone.js": "^0.8.4"
+  },
+  "homepage": "https://github.com/7leads/ngx-cookie-service#readme",
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular4",
+    "angular5",
+    "angular-2",
+    "angular-4",
+    "angular-5",
+    "aot",
+    "aot-compatible",
+    "aot-compilation",
+    "ngx",
+    "ng2",
+    "ng",
+    "service",
+    "angular-service",
+    "cookie-service",
+    "cookie",
+    "cookies"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "ngx-cookie-service",
+  "peerDependencies": {
+    "@angular/core": ">=4.2.0",
+    "@angular/platform-browser": ">=4.2.0",
+    "@angular/platform-browser-dynamic": ">=4.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/7leads/ngx-cookie-service.git"
+  },
+  "scripts": {
+    "build": "npm run compile && ng build",
+    "compile": "node scripts/compile.js",
+    "e2e": "npm run compile && ng e2e",
+    "lint": "npm run compile && ng lint",
+    "ng": "ng",
+    "publish:dist": "npm run compile && cd dist-lib && npm publish",
+    "start": "npm run compile && ng serve",
+    "test": "npm run compile && ng test"
+  },
+  "typings": "index.d.ts",
+  "version": "2.1.0"
+}

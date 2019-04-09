@@ -15,8 +15,9 @@ export class DashboardComponent implements OnInit {
 
   // postfix dollar sign for observables
   requests$: Observable<Request[]>;
-  status: string;
+  dashboardStatus: string;
   selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
+  auth: string = "false";
 
   constructor(
       private apiService: ApiService,
@@ -24,13 +25,12 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // start with request list
+    // start with request list with pending status
     this.requests$ = this.getRequest();
-
-    this.cookieValue = this.cookieService.get('Test');
+    this.changeStatus("pending");
+    this.auth = this.cookieService.get('angular-php-sar');
+    console.log(this.auth);
   }
-
-  cookieValue = 'UNKNOWN';
 
   getRequest() {
     return this.apiService.readRequests().pipe(
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
         // status response configured in php app
         console.log(response);
         // if succeed, then update request list view
-        if (response == "204") this.changeStatus(this.status);
+        if (response == "204") this.changeStatus(this.dashboardStatus);
         else alert("Operation failed on database, pelase try again.");
       });
     }
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
             }
         ),
     );
-    this.status = status;
+    this.dashboardStatus = status;
   }
 
   // sort requests

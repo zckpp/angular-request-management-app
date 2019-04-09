@@ -1,15 +1,18 @@
-<div class="container">
+<mat-card  class="container">
     <h1>System Access Request Manager Dashboard</h1>
-    <p>{{ cookieValue }}</p>
 
-    <!--display requests-->
-    <app-request-list
+
+    <h2 *ngIf="auth !== 'true'">Please log into <a href="https://mycarnegie.carnegiescience.edu">myCarnegie</a> first</h2>
+
+    <br>
+    <!--display requests if authed-->
+    <app-request-list *ngIf="auth === 'true'"
             [requests]="requests$"
-            [status]="status"
+            [dashboardStatus]="dashboardStatus"
             (requestApproved)="approveRequest($event)"
             (requestDeclined)="declineRequest($event)"
             (statusChange)="changeStatus($event)"
             (onSort)="sortRequests($event)"
     >
     </app-request-list>
-</div>
+</mat-card >
