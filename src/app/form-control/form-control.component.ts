@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
 import { ApiService } from '../api.service';
 
-// valid autocompleted manager field
+// making sure user choose from the manager list
 export function validateManager(input: FormControl) {
   const managerName = input.value;
   for (let manager of managers) {
@@ -36,6 +36,8 @@ export class FormControlComponent implements OnInit {
       private apiService: ApiService,
   ) { }
 
+  // variables
+
   // import manager and category field data
   managers: Manager[] = managers;
   categories: Category[] = categories;
@@ -55,6 +57,8 @@ export class FormControlComponent implements OnInit {
             map(name => name ? this._filter(name) : this.managers.slice()),
         );
   }
+
+  // methods
 
   // autocomplete field method
   private _filter(name: string): Manager[] {

@@ -7,20 +7,20 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-dashboard-grant',
+  templateUrl: './dashboard-grant.component.html',
+  styleUrls: ['./dashboard-grant.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardGrantComponent implements OnInit {
 
   // variables
 
   // postfix dollar sign for observables
   requests$: Observable<Request[]>;
   dashboardStatus: string;
-  selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
   auth: string = "false";
   user_email: string;
+  selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
 
   constructor(
       private apiService: ApiService,
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     // start with request list with pending status
     this.requests$ = this.getRequest();
-    this.changeStatus("pending");
+    this.changeStatus("approved");
     this.auth = this.cookieService.get('angular-php-sar');
     console.log(this.auth);
     this.user_email = this.cookieService.get('email_cookie');
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
     return this.apiService.readRequests().pipe(
         map(
             (requests) => {
-              return requests.filter((request) => { return !request.status.includes('granted'); });
+              return requests.filter((request) => { return (request.status.includes('granted') || request.status.includes('approved')); });
             }
         ),
         tap(requests => {
@@ -71,14 +71,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  approveRequest(request: Request){
+  grantRequest(request: Request){
     this.selectedRequest = request;
-    this.updateRequest(this.selectedRequest, 'approved');
-  }
-
-  declineRequest(request: Request){
-    this.selectedRequest = request;
-    this.updateRequest(this.selectedRequest, 'declined');
+    this.updateRequest(this.selectedRequest, 'granted');
   }
 
   // get different view based on status then pass it down to request list display

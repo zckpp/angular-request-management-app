@@ -1,8 +1,10 @@
+<div class="container">
+    <h1>System Access Request Approval Dashboard</h1>
+</div>
+<br>
 <mat-card  class="container">
-    <h1>System Access Request Manager Dashboard</h1>
-
-
     <h2 *ngIf="auth !== 'true'">Please log into <a href="https://mycarnegie.carnegiescience.edu">myCarnegie</a> first</h2>
+    <h3 *ngIf="auth !== 'true'">Your email is: {{ user_email }}</h3>
 
     <br>
     <!--display requests if authed-->

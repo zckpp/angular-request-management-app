@@ -1,12 +1,9 @@
 <ul class="nav nav-pills">
   <li class="nav-item">
-    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('pending')" [class.active]="dashboardStatus == 'pending'">Pending</a>
-  </li>
-  <li class="nav-item">
     <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('approved')" [class.active]="dashboardStatus == 'approved'">Approved</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('declined')" [class.active]="dashboardStatus == 'declined'">Declined</a>
+    <a class="nav-link" href="javascript:void(0)" (click)="statusChange.emit('granted')" [class.active]="dashboardStatus == 'granted'">Granted</a>
   </li>
 </ul>
 <br>
@@ -19,7 +16,7 @@
     <th scope="col" sortable="category" (sort)="onSort.emit($event)">Category</th>
     <th>Manager</th>
     <th>Status</th>
-    <th>Response</th>
+    <th *ngIf="dashboardStatus == 'approved'">Response</th>
   </tr>
 
   <tr *ngFor="let request of requests | async">
@@ -30,10 +27,8 @@
     <td>{{ request.category }}</td>
     <td>{{ request.manager }}</td>
     <td>{{ request.status }}</td>
-    <td>
-      <button class="btn btn-success" (click)="requestApproved.emit(request)">Approve</button>
-      &nbsp;
-      <button class="btn btn-danger"(click)="requestDeclined.emit(request)">Decline</button>
+    <td *ngIf="dashboardStatus == 'approved'">
+      <button class="btn btn-success" (click)="requestGranted.emit(request)">Grant</button>
     </td>
   </tr>
 </table>

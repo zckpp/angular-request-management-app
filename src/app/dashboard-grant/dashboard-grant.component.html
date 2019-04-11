@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>System Access Request Grant Dashboard</h1>
+</div>
+<br>
+<mat-card  class="container">
+  <h2 *ngIf="auth !== 'true'">Please log into <a href="https://mycarnegie.carnegiescience.edu">myCarnegie</a> first</h2>
+  <h3 *ngIf="auth !== 'true'">Your email is: {{ user_email }}</h3>
+
+  <br>
+  <!--display requests if authed-->
+  <app-request-list-grant *ngIf="auth === 'true'"
+                    [requests]="requests$"
+                    [dashboardStatus]="dashboardStatus"
+                    (requestGranted)="grantRequest($event)"
+                    (statusChange)="changeStatus($event)"
+                    (onSort)="sortRequests($event)"
+  >
+  </app-request-list-grant>
+</mat-card >
