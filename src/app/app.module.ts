@@ -12,7 +12,7 @@ import { RequestListComponent } from './dashboard/request-list/request-list.comp
 import { SortableDirective } from './sortable.directive';
 import { FormControlComponent } from './form-control/form-control.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSelectModule, MatCardModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSelectModule, MatCardModule, MatSnackBarModule } from '@angular/material';
 import { DashboardGrantComponent } from './dashboard-grant/dashboard-grant.component';
 import { RequestListGrantComponent } from './dashboard-grant/request-list-grant/request-list-grant.component';
 
@@ -40,6 +40,7 @@ import { RequestListGrantComponent } from './dashboard-grant/request-list-grant/
     MatAutocompleteModule,
     MatSelectModule,
     MatCardModule,
+    MatSnackBarModule,
     NgbModule
   ],
   providers: [CookieService],

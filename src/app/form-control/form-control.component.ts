@@ -69,6 +69,8 @@ export class FormControlComponent implements OnInit {
   // form on submit
   onSubmit() {
     let newRequest = this.requestForm.value;
+    // multi selection field array to string
+    newRequest.category = newRequest.category.join();
     this.apiService.createRequest(newRequest).subscribe((response: any) => {
       // status response configured in php app
       console.log(response.status);

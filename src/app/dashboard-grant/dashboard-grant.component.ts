@@ -5,6 +5,7 @@ import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard-grant',
@@ -24,7 +25,8 @@ export class DashboardGrantComponent implements OnInit {
 
   constructor(
       private apiService: ApiService,
-      private cookieService: CookieService
+      private cookieService: CookieService,
+      private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -45,14 +47,6 @@ export class DashboardGrantComponent implements OnInit {
               return requests.filter((request) => { return (request.status.includes('granted') || request.status.includes('approved')); });
             }
         ),
-        tap(requests => {
-          requests.forEach(function (request) {
-            // covert mysql datetime into js date
-            let t = request.created_date.split(/[- :]/);
-            request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-          });
-        }),
-        tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; }); })
     );
   }
 
@@ -65,7 +59,14 @@ export class DashboardGrantComponent implements OnInit {
         // status response configured in php app
         console.log(response);
         // if succeed, then update request list view
-        if (response == "204") this.changeStatus(this.dashboardStatus);
+        if (response == "204") {
+          this.changeStatus(this.dashboardStatus);
+          this.snackBar.open('Request is granted!', 'close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            panelClass: 'grant'
+          });
+        }
         else alert("Operation failed on database, pelase try again.");
       });
     }

@@ -5,6 +5,7 @@ import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,18 +19,18 @@ export class DashboardComponent implements OnInit {
   // postfix dollar sign for observables
   requests$: Observable<Request[]>;
   dashboardStatus: string;
-  selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
   auth: string = "false";
   user_email: string;
 
   constructor(
       private apiService: ApiService,
-      private cookieService: CookieService
+      private cookieService: CookieService,
+      private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     // start with request list with pending status
-    this.requests$ = this.getRequest();
+    this.requests$ = this.apiService.readRequests();
     this.changeStatus("pending");
     this.auth = this.cookieService.get('angular-php-sar');
     console.log(this.auth);
@@ -37,53 +38,44 @@ export class DashboardComponent implements OnInit {
   }
 
   // methods
-
-  getRequest() {
-    return this.apiService.readRequests().pipe(
-        map(
-            (requests) => {
-              return requests.filter((request) => { return !request.status.includes('granted'); });
-            }
-        ),
-        tap(requests => {
-          requests.forEach(function (request) {
-            // covert mysql datetime into js date
-            let t = request.created_date.split(/[- :]/);
-            request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-          });
-        }),
-        tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; }); })
-    );
-  }
-
   updateRequest(request: Request, value){
-    if(this.selectedRequest && this.selectedRequest.id){
-      request.id = this.selectedRequest.id;
-      request.status = value;
-      // use any here so that the condition statement won't generate error
-      this.apiService.updateRequest(request).subscribe((response: any) => {
-        // status response configured in php app
-        console.log(response);
-        // if succeed, then update request list view
-        if (response == "204") this.changeStatus(this.dashboardStatus);
-        else alert("Operation failed on database, pelase try again.");
-      });
-    }
+    request.status = value;
+    // use any here so that the condition statement won't generate error
+    this.apiService.updateRequest(request).subscribe((response: any) => {
+      // status response configured in php app
+      console.log(response);
+      // if succeed, then update request list view
+      if (response == "204") {
+        this.changeStatus(this.dashboardStatus);
+        if ('approved' === value) {
+          this.snackBar.open('Request is approved!', 'close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            panelClass: 'approve'
+          });
+        } else if ('declined' === value) {
+          this.snackBar.open('Request is declined!', 'close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            panelClass: 'decline'
+          });
+        }
+      }
+      else alert("Operation failed on database, please try again.");
+    });
   }
 
   approveRequest(request: Request){
-    this.selectedRequest = request;
-    this.updateRequest(this.selectedRequest, 'approved');
+    this.updateRequest(request, 'approved');
   }
 
   declineRequest(request: Request){
-    this.selectedRequest = request;
-    this.updateRequest(this.selectedRequest, 'declined');
+    this.updateRequest(request, 'declined');
   }
 
   // get different view based on status then pass it down to request list display
   changeStatus(status) {
-    this.requests$ = this.getRequest().pipe(
+    this.requests$ = this.apiService.readRequests().pipe(
         map(
             (requests) => {
               return requests.filter((request) => { return request.status.includes(status); });
