@@ -69,19 +69,36 @@ export class FormControlComponent implements OnInit {
   // form on submit
   onSubmit() {
     let newRequest = this.requestForm.value;
-    // multi selection field array to string
-    newRequest.category = newRequest.category.join();
-    this.apiService.createRequest(newRequest).subscribe((response: any) => {
-      // status response configured in php app
-      console.log(response.status);
-      // if succeed, display success alert
-      if (response.status == "pending") this.succeed = true;
-      else this.succeed = false;
+    // multi selection in category, create separate ticket for each
+    if (Array.isArray(newRequest.category)) {
+      for (let category of newRequest.category) {
+        let temp = newRequest;
+        temp.category = category;
+        this.apiService.createRequest(temp).subscribe((response: any) => {
+          // status response configured in php app
+          console.log(response.status);
+          // if succeed, display success alert
+          if (response.status !== "pending") this.succeed = false;
+        });
+      }
+      if (this.succeed !== false) this.succeed = true;
       // refresh page in 3 seconds
       setTimeout(() => {
         window.location.reload();
       }, 3000);
-
-    });
+    }
+    else {
+      this.apiService.createRequest(newRequest).subscribe((response: any) => {
+        // status response configured in php app
+        console.log(response.status);
+        // if succeed, display success alert
+        if (response.status == "pending") this.succeed = true;
+        else this.succeed = false;
+        // refresh page in 3 seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      });
+    }
   }
 }
