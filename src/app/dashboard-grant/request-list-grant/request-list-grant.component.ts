@@ -12,6 +12,8 @@ export class RequestListGrantComponent implements OnInit {
   // receive requests from dashboard and emit approve and decline operations
   @Input() requests;
   @Input() dashboardStatus;
+  @Input() pageSize;
+  @Input() pageIndex;
   @Output() requestGranted = new EventEmitter<Request>();
   @Output() statusChange = new EventEmitter<string>();
   @Output() onSort = new EventEmitter<SortEvent>();

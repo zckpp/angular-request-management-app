@@ -13,6 +13,8 @@ export class RequestListComponent implements OnInit {
   // receive requests from dashboard and emit approve and decline operations
   @Input() requests;
   @Input() dashboardStatus;
+  @Input() pageSize;
+  @Input() pageIndex;
   @Output() requestApproved = new EventEmitter<Request>();
   @Output() requestDeclined = new EventEmitter<Request>();
   @Output() statusChange = new EventEmitter<string>();

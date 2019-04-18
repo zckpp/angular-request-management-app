@@ -19,7 +19,7 @@
     <th *ngIf="dashboardStatus == 'approved'">Response</th>
   </tr>
 
-  <tr *ngFor="let request of requests | async">
+  <tr *ngFor="let request of requests | async | slice:(pageSize*pageIndex):(pageSize*pageIndex+pageSize)">
     <td>{{ request.created_date | date:'medium' }}</td>
     <td>{{ request.first_name }}</td>
     <td>{{ request.last_name }}</td>

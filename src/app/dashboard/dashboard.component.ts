@@ -5,7 +5,7 @@ import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // start with request list with pending status
-    this.requests$ = this.apiService.readRequests();
     this.changeStatus("pending");
     this.auth = this.cookieService.get('angular-php-sar');
     console.log(this.auth);
@@ -47,6 +46,7 @@ export class DashboardComponent implements OnInit {
       // if succeed, then update request list view
       if (response == "204") {
         this.changeStatus(this.dashboardStatus);
+        // set up snackBar pop up
         if ('approved' === value) {
           this.snackBar.open('Request is approved!', 'close', {
             duration: 3000,
@@ -121,4 +121,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  // MatPaginator Output
+  pageEvent: PageEvent;
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25];
 }

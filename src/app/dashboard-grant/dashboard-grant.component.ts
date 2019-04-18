@@ -5,7 +5,7 @@ import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard-grant',
@@ -21,7 +21,6 @@ export class DashboardGrantComponent implements OnInit {
   dashboardStatus: string;
   auth: string = "false";
   user_email: string;
-  selectedRequest: Request  = { id :  null, last_name:  null, first_name:  null, email: null, category:  null, manager:  null, status:  null, created_date: null};
 
   constructor(
       private apiService: ApiService,
@@ -39,7 +38,7 @@ export class DashboardGrantComponent implements OnInit {
   }
 
   // methods
-
+  // only need status with "approved" or "granted"
   getRequest() {
     return this.apiService.readRequests().pipe(
         map(
@@ -51,30 +50,27 @@ export class DashboardGrantComponent implements OnInit {
   }
 
   updateRequest(request: Request, value){
-    if(this.selectedRequest && this.selectedRequest.id){
-      request.id = this.selectedRequest.id;
-      request.status = value;
-      // use any here so that the condition statement won't generate error
-      this.apiService.updateRequest(request).subscribe((response: any) => {
-        // status response configured in php app
-        console.log(response);
-        // if succeed, then update request list view
-        if (response == "204") {
-          this.changeStatus(this.dashboardStatus);
-          this.snackBar.open('Request is granted!', 'close', {
-            duration: 3000,
-            verticalPosition: 'top',
-            panelClass: 'grant'
-          });
-        }
-        else alert("Operation failed on database, pelase try again.");
-      });
-    }
+    request.id = request.id;
+    request.status = value;
+    // use any here so that the condition statement won't generate error
+    this.apiService.updateRequest(request).subscribe((response: any) => {
+      // status response configured in php app
+      console.log(response);
+      // if succeed, then update request list view
+      if (response == "204") {
+        this.changeStatus(this.dashboardStatus);
+        this.snackBar.open('Request is granted!', 'close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          panelClass: 'grant'
+        });
+      }
+      else alert("Operation failed on database, pelase try again.");
+    });
   }
 
   grantRequest(request: Request){
-    this.selectedRequest = request;
-    this.updateRequest(this.selectedRequest, 'granted');
+    this.updateRequest(request, 'granted');
   }
 
   // get different view based on status then pass it down to request list display
@@ -125,4 +121,8 @@ export class DashboardGrantComponent implements OnInit {
     }
   }
 
+  // MatPaginator Output
+  pageEvent: PageEvent;
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25];
 }

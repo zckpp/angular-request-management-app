@@ -46,6 +46,11 @@
               {{category.label}}
             </mat-option>
           </mat-optgroup>
+          <mat-optgroup [label]="BBR">BBR
+            <mat-option *ngFor="let category of categories" [value]="category.value">
+              {{category.label}}
+            </mat-option>
+          </mat-optgroup>
         </mat-select>
       </mat-form-field>
     </div>

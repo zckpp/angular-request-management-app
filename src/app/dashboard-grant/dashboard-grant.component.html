@@ -11,9 +11,16 @@
   <app-request-list-grant *ngIf="auth === 'true'"
                     [requests]="requests$"
                     [dashboardStatus]="dashboardStatus"
+                    [pageSize]="pageEvent?pageEvent.pageSize:this.pageSize"
+                    [pageIndex]="pageEvent?pageEvent.pageIndex:0"
                     (requestGranted)="grantRequest($event)"
                     (statusChange)="changeStatus($event)"
                     (onSort)="sortRequests($event)"
   >
   </app-request-list-grant>
+  <mat-paginator [length]="(requests$ | async)?.length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="pageEvent = $event">
+  </mat-paginator>
 </mat-card >
