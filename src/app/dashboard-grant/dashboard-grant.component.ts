@@ -57,7 +57,7 @@ export class DashboardGrantComponent implements OnInit {
       // status response configured in php app
       console.log(response);
       // if succeed, then update request list view
-      if (response == "204") {
+      if (response.status == "succeed") {
         this.changeStatus(this.dashboardStatus);
         this.snackBar.open('Request is granted!', 'close', {
           duration: 3000,
@@ -65,7 +65,7 @@ export class DashboardGrantComponent implements OnInit {
           panelClass: 'grant'
         });
       }
-      else alert("Operation failed on database, pelase try again.");
+      else alert("Operation failed on database, please try again.");
     });
   }
 

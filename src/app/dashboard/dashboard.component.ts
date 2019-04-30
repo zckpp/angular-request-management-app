@@ -1,4 +1,4 @@
-import { Component, OnInit, Directive, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ApiService } from '../api.service';
 import { SortableDirective, SortEvent, Compare } from '../sortable.directive';
 import { Request } from '../request';
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
       // status response configured in php app
       console.log(response);
       // if succeed, then update request list view
-      if (response == "204") {
+      if (response.status == "succeed") {
         this.changeStatus(this.dashboardStatus);
         // set up snackBar pop up
         if ('approved' === value) {

@@ -72,6 +72,7 @@ export class FormControlComponent implements OnInit {
     // multi selection in category, create separate ticket for each
     if (Array.isArray(newRequest.category)) {
       for (let category of newRequest.category) {
+        // make a copy of submission for each category
         let temp = newRequest;
         temp.category = category;
         this.apiService.createRequest(temp).subscribe((response: any) => {

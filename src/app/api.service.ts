@@ -22,7 +22,7 @@ export class ApiService {
         }),
         // sort by created date
         tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; }); })
-    );;
+    );
   }
 
   createRequest(request: Request): Observable<Request>{

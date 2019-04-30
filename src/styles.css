@@ -1,10 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import material theme css */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-.grant .mat-simple-snackbar {
-    color: green;
-}
-.approve .mat-simple-snackbar {
+/* Snackbar css */
+.grant .mat-simple-snackbar, .approve .mat-simple-snackbar {
     color: green;
 }
 .decline .mat-simple-snackbar {
@@ -13,8 +11,10 @@
 .mat-snack-bar-container {
     background: #fdfdfd;
 }
+
+/* Footer logo */
 img.logo {
-    max-width: 70px;
+    max-width: 50px;
     position: fixed;
     bottom: 10px;
     right: 10px;
