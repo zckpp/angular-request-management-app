@@ -7,4 +7,5 @@ export interface Request {
     manager:  string;
     status:  string;
     created_date: any;
+    granted_date: any;
 }

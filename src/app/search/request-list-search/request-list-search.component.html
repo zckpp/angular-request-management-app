@@ -1,0 +1,19 @@
+<table width='100%' class="table table-striped">
+  <tr>
+    <th>Granted Date</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Category</th>
+    <th>Manager</th>
+  </tr>
+
+  <tr *ngFor="let request of requests | async | slice:(pageSize*pageIndex):(pageSize*pageIndex+pageSize)">
+    <td>{{ request.granted_date | date:'medium' }}</td>
+    <td>{{ request.first_name }}</td>
+    <td>{{ request.last_name }}</td>
+    <td>{{ request.email }}</td>
+    <td>{{ request.category }}</td>
+    <td>{{ request.manager }}</td>
+  </tr>
+</table>

@@ -18,10 +18,28 @@ export class ApiService {
             // covert mysql datetime into js date
             let t = request.created_date.split(/[- :]/);
             request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+            let gt = request.granted_date.split(/[- :]/);
+            request.granted_date = new Date(Date.UTC(gt[0], gt[1]-1, gt[2], gt[3], gt[4], gt[5]));
           });
         }),
         // sort by created date
         tap(requests => { requests.sort((a,b) => { return b.created_date-a.created_date; }); })
+    );
+  }
+
+  searchRequests(term: string): Observable<Request[]>{
+    return this.httpClient.post<Request[]>(`${this.PHP_API_SERVER}/read.php`, term).pipe(
+        tap(requests => {
+          requests.forEach(function (request) {
+            // covert mysql datetime into js date
+            let t = request.created_date.split(/[- :]/);
+            request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+            let gt = request.granted_date.split(/[- :]/);
+            request.granted_date = new Date(Date.UTC(gt[0], gt[1]-1, gt[2], gt[3], gt[4], gt[5]));
+          });
+        }),
+        // sort by granted date
+        tap(requests => { requests.sort((a,b) => { return b.granted_date-a.granted_date; }); })
     );
   }
 

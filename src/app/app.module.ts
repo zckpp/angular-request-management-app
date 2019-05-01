@@ -15,6 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSelectModule, MatCardModule, MatSnackBarModule, MatPaginatorModule } from '@angular/material';
 import { DashboardGrantComponent } from './dashboard-grant/dashboard-grant.component';
 import { RequestListGrantComponent } from './dashboard-grant/request-list-grant/request-list-grant.component';
+import { SearchComponent } from './search/search.component';
+import { RequestListSearchComponent } from './search/request-list-search/request-list-search.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { RequestListGrantComponent } from './dashboard-grant/request-list-grant/
     FormControlComponent,
     DashboardGrantComponent,
     RequestListGrantComponent,
+    SearchComponent,
+    RequestListSearchComponent,
   ],
   imports: [
     BrowserModule,

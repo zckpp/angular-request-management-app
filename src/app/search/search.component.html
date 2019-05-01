@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>System Access Request Search Dashboard</h1>
+</div>
+<br>
+<mat-card  class="container">
+  <h2 *ngIf="auth !== 'true'">Please log into <a href="https://mycarnegie.carnegiescience.edu">myCarnegie</a> first</h2>
+  <h3 *ngIf="auth !== 'true'">Your email is: {{ user_email }}</h3>
+
+  <br>
+  <mat-form-field class="col-md-6">
+    <input matInput placeholder="Search" type="text" autocomplete="off" [formControl]="termFilter">
+  </mat-form-field>
+  <br>
+  <!--display requests if authed-->
+  <app-request-list-search *ngIf="auth === 'true'"
+                    [requests]="requests$"
+                    [pageSize]="pageEvent?pageEvent.pageSize:this.pageSize"
+                    [pageIndex]="pageEvent?pageEvent.pageIndex:0"
+  >
+  </app-request-list-search>
+
+  <mat-paginator [length]="(requests$ | async)?.length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="pageEvent = $event">
+  </mat-paginator>
+
+</mat-card >
