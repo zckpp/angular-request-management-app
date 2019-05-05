@@ -41,14 +41,9 @@
       <mat-form-field class="col-md-6 col-sm-12">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category" multiple required>
-          <mat-optgroup [label]="HQ">HQ
-            <mat-option *ngFor="let category of categories" [value]="category.value">
-              {{category.label}}
-            </mat-option>
-          </mat-optgroup>
-          <mat-optgroup [label]="BBR">BBR
-            <mat-option *ngFor="let category of categories" [value]="category.value">
-              {{category.label}}
+          <mat-optgroup *ngFor="let group of categories$ | async" [label]="group.name">
+            <mat-option *ngFor="let category of group.category" [value]="category.value">
+              {{ category.label }}
             </mat-option>
           </mat-optgroup>
         </mat-select>
@@ -66,5 +61,6 @@
 
   <ngb-alert *ngIf="succeed === true" type="success" [dismissible]="false">Your request is submitted successfully. This page will refresh in 3 seconds.</ngb-alert>
   <ngb-alert *ngIf="succeed === false" type="danger" [dismissible]="false">There was something wrong in the system. Please try again or contact admin. This page will refresh in 3 seconds</ngb-alert>
+
 </mat-card>
 

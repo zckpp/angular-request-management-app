@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
 import { ApiService } from '../api.service';
 import { Request } from '../request';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+
+import { PageEvent } from '@angular/material';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
-import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { PageEvent } from '@angular/material';
+import { map, startWith, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-search',
@@ -17,7 +19,6 @@ export class SearchComponent implements OnInit {
 
   // postfix dollar sign for observables
   requests$: Observable<Request[]>;
-  term$: Observable<string>;
   auth: string = "false";
   user_email: string;
   termFilter = new FormControl('');
@@ -28,37 +29,25 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // only show granted requests in this dashboard
-    this.changeStatus("granted");
-    this.auth = this.cookieService.get('angular-php-sar');
-    this.user_email = this.cookieService.get('email_cookie');
-    // use switchMap to combine two observables
-    this.requests$ = this.termFilter.valueChanges
-        .pipe(
-            startWith<string>(""),
-            debounceTime(400),
-            distinctUntilChanged(),
-            switchMap(term => this.apiService.searchRequests(term)
-                .pipe(
-                    map(
-                        (requests) => {
-                          return requests.filter((request) => { return request.status.includes("granted"); });
-                        }
-                    ),
-                )
-            ),
-        );
-  }
-
-  // get different view based on status then pass it down to request list display
-  changeStatus(status) {
-    this.requests$ = this.apiService.readRequests().pipe(
-        map(
-            (requests) => {
-              return requests.filter((request) => { return request.status.includes(status); });
-            }
-        ),
-    );
+      this.auth = this.cookieService.get('angular-php-sar');
+      this.user_email = this.cookieService.get('email_cookie');
+      // use switchMap to combine two observables
+      this.requests$ = this.termFilter.valueChanges
+          .pipe(
+              //start with empty string to show all result
+              startWith<string>(""),
+              debounceTime(400),
+              distinctUntilChanged(),
+              switchMap(term => this.apiService.searchRequests(term)
+                  .pipe(
+                      map(
+                          (requests) => {
+                            return requests.filter((request) => { return request.status.includes("granted"); });
+                          }
+                      ),
+                  )
+              ),
+          );
   }
 
   // MatPaginator Output

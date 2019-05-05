@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { managers, Manager } from '../manager';
-import { categories, Category } from '../category';
-import { FormGroupDirective, NgForm, FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { CategoryGroup } from '../category';
+import { FormControl, Validators, FormBuilder  } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
 import { ApiService } from '../api.service';
@@ -40,7 +40,7 @@ export class FormControlComponent implements OnInit {
 
   // import manager and category field data
   managers: Manager[] = managers;
-  categories: Category[] = categories;
+  categories$: Observable<CategoryGroup[]>;
 
   // init autocomplete field: manager
   filteredOptions: Observable<Manager[]>;
@@ -56,11 +56,11 @@ export class FormControlComponent implements OnInit {
             map(value => typeof value === 'string' ? value : value.name),
             map(name => name ? this._filter(name) : this.managers.slice()),
         );
+    this.categories$ = this.apiService.readCategories();
   }
 
   // methods
-
-  // autocomplete field method
+  // auto-complete field method
   private _filter(name: string): Manager[] {
     const filterValue = name.toLowerCase();
     return this.managers.filter(option => option.name.toLowerCase().indexOf(filterValue) !== -1);

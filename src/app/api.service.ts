@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Request } from  './request';
+import { CategoryGroup } from  './category';
 import { Observable } from  'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -18,8 +19,6 @@ export class ApiService {
             // covert mysql datetime into js date
             let t = request.created_date.split(/[- :]/);
             request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-            let gt = request.granted_date.split(/[- :]/);
-            request.granted_date = new Date(Date.UTC(gt[0], gt[1]-1, gt[2], gt[3], gt[4], gt[5]));
           });
         }),
         // sort by created date
@@ -32,8 +31,6 @@ export class ApiService {
         tap(requests => {
           requests.forEach(function (request) {
             // covert mysql datetime into js date
-            let t = request.created_date.split(/[- :]/);
-            request.created_date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
             let gt = request.granted_date.split(/[- :]/);
             request.granted_date = new Date(Date.UTC(gt[0], gt[1]-1, gt[2], gt[3], gt[4], gt[5]));
           });
@@ -53,6 +50,10 @@ export class ApiService {
 
   deleteRequest(id: number){
     return this.httpClient.delete<Request>(`${this.PHP_API_SERVER}/delete.php/?id=${id}`);
+  }
+
+  readCategories(): Observable<CategoryGroup[]>{
+    return this.httpClient.get<any>(`${this.PHP_API_SERVER}/readCategory.php`).pipe();
   }
 
 }
