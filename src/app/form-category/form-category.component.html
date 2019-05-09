@@ -1,0 +1,51 @@
+<div class="container">
+  <h1>System Access Request Category Form</h1>
+</div>
+<br>
+<mat-card class="container">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12">
+        <mat-label>System</mat-label>
+        <mat-select formControlName="system" required>
+          <mat-option *ngFor="let system of categoryGroups$ | async" [value]="system.name">
+            {{ system.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6 col-sm-12">
+        <input matInput placeholder="Category Name" formControlName="category_new" required>
+        <!--<mat-error *ngIf="categoryForm.get('category_new').dirty && categoryForm.get('category_new').hasError('notInList')">-->
+          <!--This category is already in database.-->
+        <!--</mat-error>-->
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button type="submit" mat-raised-button [disabled]="!categoryForm.valid">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <br><br>
+
+  <ngb-alert *ngIf="succeed === true" type="success" [dismissible]="false">Your request is submitted successfully. This page will refresh in 3 seconds.</ngb-alert>
+  <ngb-alert *ngIf="succeed === false" type="danger" [dismissible]="false">There was something wrong in the system. Please try again or contact admin. This page will refresh in 3 seconds</ngb-alert>
+
+  <br>
+
+  <h2>Existing Categories</h2>
+
+  <table class="table table-striped" *ngFor="let system of categories_list$ | async">
+    <tr>
+      <th>{{ system.name }}</th>
+    </tr>
+
+    <tr>
+      <span *ngFor="let category of system.category">{{ category.label }}</span>
+    </tr>
+  </table>
+
+</mat-card>

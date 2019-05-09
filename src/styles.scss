@@ -19,3 +19,10 @@ img.logo {
     bottom: 10px;
     right: 10px;
 }
+
+// material overlay select list
+.cdk-overlay-container {
+    div.mat-select-panel {
+        max-height: 350px;
+    }
+}

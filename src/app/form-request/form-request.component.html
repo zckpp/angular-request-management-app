@@ -41,7 +41,7 @@
       <mat-form-field class="col-md-6 col-sm-12">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category" multiple required>
-          <mat-optgroup *ngFor="let group of categories$ | async" [label]="group.name">
+          <mat-optgroup *ngFor="let group of categoryGroups$ | async" [label]="group.name">
             <mat-option *ngFor="let category of group.category" [value]="category.value">
               {{ category.label }}
             </mat-option>
