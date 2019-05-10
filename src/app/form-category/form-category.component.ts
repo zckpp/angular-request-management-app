@@ -16,8 +16,8 @@ import { ApiService } from '../api.service';
 export class FormCategoryComponent implements OnInit {
 
     categoryForm = this.fb.group({
-    system: ['', Validators.required],
-    category_new: ['', Validators.required, this.validateCategory.bind(this)],
+        system: ['', Validators.required],
+        category_new: ['', Validators.required, this.validateCategory.bind(this)],
     });
 
     constructor(
@@ -27,9 +27,9 @@ export class FormCategoryComponent implements OnInit {
 
     // variable if request is successfully submitted
     succeed: boolean = null;
-    // select value to choose system of the categories
+    // select value for choosing system of the categories
     categoryGroups$: Observable<CategoryGroup[]>;
-    // list to show existing categories
+    // list to show existing categories based on selected system
     categories_list$: Observable<CategoryGroup[]>;
 
     ngOnInit() {
@@ -55,8 +55,8 @@ export class FormCategoryComponent implements OnInit {
     // validating Category field for duplications
     validateCategory(input: AbstractControl) {
         const categoryValue = input.value;
-        // return an object value for validator
-        return this.categoryGroups$.pipe(
+        // return an object value for validator, note that I use categories_list$ making sure only validate categories in the same system
+        return this.categories_list$.pipe(
             map(
                 categoryGroups => {
                     let dup = null;
