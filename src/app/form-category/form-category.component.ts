@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryGroup } from '../category';
-import { FormControl, Validators, FormBuilder  } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, AbstractControl  } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, map, startWith, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ApiService } from '../api.service';
@@ -17,7 +17,7 @@ export class FormCategoryComponent implements OnInit {
 
     categoryForm = this.fb.group({
     system: ['', Validators.required],
-    category_new: ['', Validators.required],
+    category_new: ['', Validators.required, this.validateCategory.bind(this)],
     });
 
     constructor(
@@ -52,20 +52,26 @@ export class FormCategoryComponent implements OnInit {
             );
     }
 
-    // validateCategory(input: FormControl) {
-    //     console.log('dude!!');
-    //     const categoryValue = input.value;
-    //     this.categoryGroups$.pipe(
-    //         tap(categoryGroups => {
-    //             categoryGroups.forEach(function (categoryGroup) {
-    //                 if(categoryGroup.category.indexOf(categoryValue) != -1) {
-    //                     return { notInList: false };
-    //                 }
-    //             });
-    //         })
-    //     );
-    //     return { notInList: true };
-    // }
+    // validating Category field for duplications
+    validateCategory(input: AbstractControl) {
+        const categoryValue = input.value;
+        // return an object value for validator
+        return this.categoryGroups$.pipe(
+            map(
+                categoryGroups => {
+                    let dup = null;
+                    categoryGroups.forEach(function (categoryGroup) {
+                        categoryGroup.category.forEach(function (term) {
+                            if(term.label === categoryValue) {
+                                dup = { dupCategory: true };
+                            }
+                        })
+                    });
+                    return dup;
+                }
+            )
+        );
+    }
 
     // form on submit
     onSubmit() {

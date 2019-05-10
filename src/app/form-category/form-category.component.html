@@ -16,9 +16,9 @@
 
       <mat-form-field class="col-md-6 col-sm-12">
         <input matInput placeholder="Category Name" formControlName="category_new" required>
-        <!--<mat-error *ngIf="categoryForm.get('category_new').dirty && categoryForm.get('category_new').hasError('notInList')">-->
-          <!--This category is already in database.-->
-        <!--</mat-error>-->
+        <mat-error *ngIf="categoryForm.get('category_new').errors && categoryForm.get('category_new').errors.dupCategory">
+          This category is already in the system.
+        </mat-error>
       </mat-form-field>
     </div>
 
