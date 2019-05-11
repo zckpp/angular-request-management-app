@@ -29,7 +29,7 @@ export class FormRequestComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         category: ['', Validators.required],
         manager: ['', [Validators.required, validateManager]],
-    });
+    }, {updateOn: 'blur'});
 
     constructor(
         private fb: FormBuilder,

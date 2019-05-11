@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryGroup } from '../category';
-import { FormControl, Validators, FormBuilder, AbstractControl  } from '@angular/forms';
+import { FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { tap, map, startWith, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { tap, map, startWith, switchMap, distinctUntilChanged } from 'rxjs/operators';
 import { ApiService } from '../api.service';
-
-// making sure user does not put in category that is already in database
-
 
 @Component({
     selector: 'app-form-category',
@@ -18,7 +15,7 @@ export class FormCategoryComponent implements OnInit {
     categoryForm = this.fb.group({
         system: ['', Validators.required],
         category_new: ['', Validators.required, this.validateCategory.bind(this)],
-    });
+    }, {updateOn: 'blur'});
 
     constructor(
         private fb: FormBuilder,
@@ -38,13 +35,12 @@ export class FormCategoryComponent implements OnInit {
             .pipe(
                 //start with empty string to show all result
                 startWith<string>(""),
-                debounceTime(400),
                 distinctUntilChanged(),
                 switchMap(term => this.apiService.readCategories()
                     .pipe(
                         map(
-                            (categories) => {
-                              return categories.filter((category) => { return category.name.includes(term); });
+                            (categorieGroups) => {
+                              return categorieGroups.filter((categorieGroup) => { return categorieGroup.name.includes(term); });
                             }
                         ),
                     )
@@ -55,19 +51,26 @@ export class FormCategoryComponent implements OnInit {
     // validating Category field for duplications
     validateCategory(input: AbstractControl) {
         const categoryValue = input.value;
-        // return an object value for validator, note that I use categories_list$ making sure only validate categories in the same system
-        return this.categories_list$.pipe(
+        // return an object value for validator, making sure only validate categories in the same system
+        // TODO: why cannot use categories_list$ here?
+        return this.categoryGroups$.pipe(
+            map(
+                (categoryGroups) => {
+                    return categoryGroups.filter((categoryGroup) => { return categoryGroup.name.includes(this.categoryForm.get('system').value); });
+                }
+            ),
             map(
                 categoryGroups => {
-                    let dup = null;
+                    let dupCategory = null;
                     categoryGroups.forEach(function (categoryGroup) {
                         categoryGroup.category.forEach(function (term) {
                             if(term.label === categoryValue) {
-                                dup = { dupCategory: true };
+                                dupCategory = { dupCategory: true };
                             }
                         })
                     });
-                    return dup;
+                    console.log(dupCategory);
+                    return dupCategory;
                 }
             )
         );
