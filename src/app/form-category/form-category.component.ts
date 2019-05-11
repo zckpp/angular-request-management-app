@@ -64,12 +64,11 @@ export class FormCategoryComponent implements OnInit {
                     let dupCategory = null;
                     categoryGroups.forEach(function (categoryGroup) {
                         categoryGroup.category.forEach(function (term) {
-                            if(term.label === categoryValue) {
+                            if(term.label.toLowerCase() === categoryValue.toLowerCase()) {
                                 dupCategory = { dupCategory: true };
                             }
                         })
                     });
-                    console.log(dupCategory);
                     return dupCategory;
                 }
             )
