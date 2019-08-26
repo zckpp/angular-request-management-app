@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { Request } from '../request';
 
-import { PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
 import { map, startWith, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';

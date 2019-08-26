@@ -5,7 +5,8 @@ import { Request } from '../request';
 import { map, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from "rxjs";
-import { MatSnackBar, PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',

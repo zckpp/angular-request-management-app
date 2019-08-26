@@ -12,7 +12,15 @@ import { RequestListComponent } from './dashboard/request-list/request-list.comp
 import { SortableDirective } from './sortable.directive';
 import { FormRequestComponent } from './form-request/form-request.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSelectModule, MatCardModule, MatSnackBarModule, MatPaginatorModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DashboardGrantComponent } from './dashboard-grant/dashboard-grant.component';
 import { RequestListGrantComponent } from './dashboard-grant/request-list-grant/request-list-grant.component';
 import { SearchComponent } from './search/search.component';
